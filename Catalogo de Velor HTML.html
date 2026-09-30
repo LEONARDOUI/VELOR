@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VELOR | El valor de tu tiempo</title>
+<style>
+:root{--bg:#faf7f0;--card:#fff;--ink:#1b1b1f;--mut:#6b6b73;--gold:#a67c1f;--line:#e6dfcf;--wa:#1faa59;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e0e11;--card:#18181d;--ink:#f3efe6;--mut:#a3a3ad;--gold:#d4af37;--line:#2c2c34}}
+:root[data-theme="dark"]{--bg:#0e0e11;--card:#18181d;--ink:#f3efe6;--mut:#a3a3ad;--gold:#d4af37;--line:#2c2c34}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Georgia,'Times New Roman',serif}
+.hero{text-align:center;padding:64px 20px 48px;border-bottom:1px solid var(--line)}
+.hero h1{font-size:clamp(44px,12vw,84px);letter-spacing:.3em;margin:0;color:var(--gold);font-weight:400}
+.hero p{letter-spacing:.35em;font-size:clamp(12px,3.4vw,16px);color:var(--mut);margin:12px 0 28px}
+.btn{display:inline-block;background:var(--wa);color:#fff;text-decoration:none;padding:12px 22px;border-radius:999px;font:600 15px system-ui,sans-serif}
+.filters{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;padding:24px 16px 8px}
+.filters button{font:14px system-ui,sans-serif;padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+#brands{padding-top:0}#brands button{font-size:13px;padding:6px 12px}
+.filters button.on{background:var(--gold);color:#fff;border-color:var(--gold)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px;max-width:1150px;margin:0 auto;padding:20px 16px 40px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.ph{height:150px;display:flex;align-items:center;justify-content:center;font-size:56px;background:linear-gradient(135deg,var(--line),transparent)}
+.ph img{width:100%;height:100%;object-fit:cover}
+.b{padding:16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.tag{font:11px system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.b h3{margin:0;font-size:19px;font-weight:400}
+.b p{margin:0;font:14px/1.45 system-ui,sans-serif;color:var(--mut);flex:1}
+.pr{font-size:22px;color:var(--gold);margin-top:6px}
+.vend .ph,.vend h3,.vend p{opacity:.45}.vend .pr{text-decoration:line-through;opacity:.6}.btn.sold{background:#8a2a2a;text-align:center;margin-top:8px;padding:10px;font-size:14px}
+.stk{font:12px system-ui,sans-serif;color:var(--mut)}
+.b .btn{text-align:center;margin-top:8px;padding:10px;font-size:14px}
+.contact{text-align:center;padding:48px 20px 60px;border-top:1px solid var(--line)}
+.contact h2{font-weight:400;color:var(--gold);letter-spacing:.2em;margin:0 0 8px}
+.contact p{color:var(--mut);font-family:system-ui,sans-serif;margin:0 0 22px}
+.contact .btn{margin:6px}
+footer{text-align:center;color:var(--mut);font:12px system-ui,sans-serif;padding:0 0 28px}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>VELOR</h1>
+  <p>EL VALOR DE TU TIEMPO</p>
+  <a class="btn" id="heroWa" href="#contacto">Escríbenos por WhatsApp</a>
+</header>
+
+<div class="filters" id="filters"></div>
+<div class="filters" id="brands"></div>
+<main class="grid" id="grid"></main>
+
+<section class="contact" id="contacto">
+  <h2>HABLEMOS</h2>
+  <p>Escríbenos y te atendemos directamente en nuestro chat.</p>
+  <div id="waBtns"></div>
+</section>
+<footer>© VELOR · El valor de tu tiempo</footer>
+
+<script>
+/* ============ EDITA AQUÍ ============ */
+// Números de WhatsApp (sin +591, se agrega solo)
+const NUMEROS = ["62101492", "77108831"];
+const PAIS = "591";
+const MONEDA = "Bs";
+
+// Cada reloj: [Categoría, Nombre, Descripción, Precio, Cantidad, siempre 1: cada reloj tiene su propia tarjeta, URL de foto (opcional)]
+const RELOJES = [
+["Caballero","Casio","Reloj Casio para caballero. Consulta por modelos y colores disponibles.",160,1],
+["Caballero","Casio","Reloj Casio para caballero. Consulta por modelos y colores disponibles.",160,1],
+["Caballero","Casio","Reloj Casio para caballero. Consulta por modelos y colores disponibles.",160,1],
+["Caballero","Casio","Reloj Casio para caballero. Consulta por modelos y colores disponibles.",160,1],
+["Caballero","Casio","Reloj Casio para caballero. Consulta por modelos y colores disponibles.",160,1],
+["Caballero","Casio","Reloj Casio para caballero. Consulta por modelos y colores disponibles.",160,1],
+["Caballero","Casio","Reloj Casio para caballero. Consulta por modelos y colores disponibles.",160,1],
+["Caballero","Casio","Reloj Casio para caballero. Consulta por modelos y colores disponibles.",160,1],
+["Caballero","Casio","Reloj Casio para caballero. Consulta por modelos y colores disponibles.",160,1],
+["Caballero","Casio","Reloj Casio para caballero. Consulta por modelos y colores disponibles.",160,1],
+["Caballero","Casio","Reloj Casio para caballero. Consulta por modelos y colores disponibles.",160,1],
+["Caballero","Casio","Reloj Casio para caballero. Consulta por modelos y colores disponibles.",160,1],
+["Caballero","Casio","Reloj Casio para caballero. Consulta por modelos y colores disponibles.",160,1],
+["Dama","Casio Dama","Reloj Casio para dama. Consulta por modelos y colores disponibles.",160,1],
+["Caballero","Casio","Reloj Casio para caballero. Consulta por modelos y colores disponibles.",150,1],
+["Caballero","Casio","Reloj Casio para caballero. Consulta por modelos y colores disponibles.",150,1],
+["Caballero","Casio","Reloj Casio para caballero. Consulta por modelos y colores disponibles.",150,1],
+["Caballero","Casio Vintage","Reloj Casio de estilo vintage. Unidad única.",110,1],
+["Caballero","Cartier","Reloj estilo Cartier de diseño elegante. Consulta por modelos disponibles.",180,1],
+["Caballero","Cartier","Reloj estilo Cartier de diseño elegante. Consulta por modelos disponibles.",180,1],
+["Caballero","Cartier","Reloj estilo Cartier de diseño elegante. Consulta por modelos disponibles.",180,1],
+["Caballero","Rolex","Reloj estilo Rolex para caballero. Consulta por modelos y colores disponibles.",240,1],
+["Caballero","Rolex","Reloj estilo Rolex para caballero. Consulta por modelos y colores disponibles.",240,1],
+["Caballero","Rolex","Reloj estilo Rolex para caballero. Consulta por modelos y colores disponibles.",240,1],
+["Caballero","Rolex","Reloj estilo Rolex para caballero. Consulta por modelos y colores disponibles.",240,1],
+["Caballero","Rolex","Reloj estilo Rolex para caballero. Consulta por modelos y colores disponibles.",240,1],
+["Caballero","Rolex","Reloj estilo Rolex para caballero. Consulta por modelos y colores disponibles.",240,1],
+["Caballero","Rolex","Reloj estilo Rolex para caballero. Consulta por modelos y colores disponibles.",240,1],
+["Caballero","Rolex","Reloj estilo Rolex para caballero. Consulta por modelos y colores disponibles.",240,1],
+["Caballero","Rolex","Reloj estilo Rolex para caballero. Consulta por modelos y colores disponibles.",240,1],
+["Caballero","Rolex","Reloj estilo Rolex para caballero. Consulta por modelos y colores disponibles.",240,1],
+["Dama","Rolex Dama","Reloj estilo Rolex para dama. Consulta por modelos y colores disponibles.",250,1],
+["Dama","Rolex Dama","Reloj estilo Rolex para dama. Consulta por modelos y colores disponibles.",250,1],
+["Caballero","Rolex Logo Grande","Reloj estilo Rolex con logo grande en la esfera.",210,1],
+["Caballero","Rolex Logo Grande","Reloj estilo Rolex con logo grande en la esfera.",210,1],
+["Caballero","Q&Q","Reloj Q&Q para uso diario. Consulta por modelos y colores disponibles.",190,1],
+["Caballero","Q&Q","Reloj Q&Q para uso diario. Consulta por modelos y colores disponibles.",190,1],
+["Caballero","Q&Q","Reloj Q&Q para uso diario. Consulta por modelos y colores disponibles.",190,1],
+["Caballero","Q&Q","Reloj Q&Q para uso diario. Consulta por modelos y colores disponibles.",190,1],
+["Caballero","Q&Q","Reloj Q&Q para uso diario. Consulta por modelos y colores disponibles.",190,1],
+["Caballero","Lambo","Reloj Lambo de diseño deportivo. Unidad única.",200,1],
+["Caballero","Casio","Reloj Casio para caballero, modelo premium. Consulta por modelos disponibles.",240,1],
+["Caballero","Casio","Reloj Casio para caballero, modelo premium. Consulta por modelos disponibles.",240,1],
+["Caballero","Rolex","Reloj estilo Rolex, modelo premium. Unidad única.",280,1],
+["Caballero","Richard Mille","Reloj estilo Richard Mille de diseño llamativo. Unidad única.",280,1],
+["Caballero","Orient SK Crystal 21 Jewels","Reloj Orient SK Crystal con 21 jewels. Unidad única.",320,1]
+];
+RELOJES.forEach((r,i)=>r.ref="VLR-"+String(i+1).padStart(2,"0"));
+// Referencias vendidas (se muestran como VENDIDO y sin botón). Borra la referencia si vuelve a estar disponible.
+const VENDIDOS=["VLR-14"];
+/* ==================================== */
+
+const wa=(n,msg)=>`https://wa.me/${PAIS}${n}?text=${encodeURIComponent(msg)}`;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const cats=["Todos",...new Set(RELOJES.map(r=>r[0]))];
+let cur="Todos",brand="Todas";
+// Marcas (se detectan por el inicio del nombre del reloj). Agrega aquí nuevas marcas.
+const BRANDS=["Casio","Cartier","Rolex","Q&Q","Lambo","Richard Mille","Orient"];
+const brandOf=r=>BRANDS.find(b=>r[1].startsWith(b))||"Otras";
+
+function render(){
+  document.getElementById("filters").innerHTML=cats.map(c=>`<button class="${c===cur?'on':''}" data-c="${esc(c)}">${esc(c)}</button>`).join("");
+  const inCat=RELOJES.filter(r=>cur==="Todos"||r[0]===cur);
+  const bl=[...new Set(inCat.map(brandOf))];
+  document.getElementById("brands").innerHTML=bl.map(b=>`<button class="${b===brand?'on':''}" data-b="${esc(b)}">${esc(b)} (${inCat.filter(r=>brandOf(r)===b).length})</button>`).join("");
+  document.getElementById("grid").innerHTML=inCat.filter(r=>brand==="Todas"||brandOf(r)===brand).map(r=>`
+  <article class="card${VENDIDOS.includes(r.ref)?' vend':''}">
+    <div class="ph">${r[5]?`<img src="${esc(r[5])}" alt="${esc(r[1])}">`:"⌚"}</div>
+    <div class="b"><span class="tag">${esc(r[0])}</span><h3>${esc(r[1])}</h3><p>${esc(r[2])}</p>
+    <div class="pr">${MONEDA} ${r[3]} <span class="stk">· Ref. ${r.ref}</span></div>
+    ${VENDIDOS.includes(r.ref)?'<div class="btn sold">VENDIDO</div>':`<a class="btn" target="_blank" rel="noopener" href="${wa(NUMEROS[0],`Hola, me interesa el reloj ${r[1]} (Ref. ${r.ref}, ${MONEDA} ${r[3]}). ¿Está disponible?`)}">Consultar por WhatsApp</a>`}</div>
+  </article>`).join("");
+}
+document.getElementById("filters").addEventListener("click",e=>{const c=e.target.dataset.c;if(c){cur=c;brand="Todas";render();}});
+document.getElementById("brands").addEventListener("click",e=>{const b=e.target.dataset.b;if(b){brand=brand===b?"Todas":b;render();}});
+document.getElementById("waBtns").innerHTML=NUMEROS.map(n=>`<a class="btn" target="_blank" rel="noopener" href="${wa(n,"Hola VELOR, quiero información sobre sus relojes.")}">WhatsApp ${n}</a>`).join("");
+render();
+</script>
+</body>
+</html>
